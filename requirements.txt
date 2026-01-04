@@ -1,0 +1,47 @@
+# Core API
+fastapi
+uvicorn[standard]
+
+# Config & validation
+python-dotenv
+pydantic
+pydantic-settings
+
+# Google OAuth & APIs
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+google-api-python-client
+
+# Background jobs
+celery
+redis
+
+# Database
+sqlalchemy
+alembic
+psycopg2-binary
+
+# LLM
+litellm
+tiktoken
+
+# Vector memory
+faiss-cpu
+sentence-transformers
+
+# Text processing
+regex
+beautifulsoup4
+lxml
+
+# Security & auth
+passlib[bcrypt]
+python-jose[cryptography]
+structlog
+
+# Dev & testing
+pytest
+httpx
+black
+ruff
