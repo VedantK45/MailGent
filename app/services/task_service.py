@@ -1,0 +1,20 @@
+from sqlalchemy.orm import Session
+from app.models.task import Task
+
+def create_task(
+    db: Session,
+    user_id: int,
+    email_id: int | None,
+    priority: str,
+    deadline=None
+) -> Task:
+    task = Task(
+        user_id=user_id,
+        email_id=email_id,
+        priority=priority,
+        deadline=deadline
+    )
+    db.add(task)
+    db.commit()
+    db.refresh(task)
+    return task
