@@ -63,21 +63,18 @@ class TaskPlanningAgent(BaseAgent):
 
         reminders = []
 
-        # High urgency → multiple reminders
         if urgency == "high":
             reminders.append((deadline_dt - timedelta(days=2)).isoformat())
             reminders.append((deadline_dt - timedelta(hours=4)).isoformat())
-
-        # Medium urgency → one reminder
         elif urgency == "medium":
             reminders.append((deadline_dt - timedelta(days=1)).isoformat())
 
-        # Low urgency → optional / none
-        else:
-            pass
-
-        # Filter out past reminders
         now = datetime.utcnow()
-        reminders = [r for r in reminders if datetime.fromisoformat(r) > now]
+        future_reminders = [
+            r for r in reminders if datetime.fromisoformat(r) > now
+        ]
 
-        return reminders
+        if urgency == "high" and not future_reminders and reminders:
+            future_reminders = [max(reminders)]
+
+        return future_reminders

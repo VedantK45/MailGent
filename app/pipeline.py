@@ -1,10 +1,13 @@
 from typing import Dict, Any
+from app.config import is_test_mode
 
 from app.agents.perception import EmailPerceptionAgent
 from app.agents.planner import TaskPlanningAgent
 from app.agents.supervisor import SupervisorAgent
 from app.agents.executor import ActionExecutorAgent
 from app.agents.memory import MemoryAgent
+
+
 
 
 class MailGentPipeline:
@@ -43,7 +46,9 @@ class MailGentPipeline:
         # 4️⃣ Executor
         execution_result = self.executor.run({
             **plan_output,
-            **supervisor_output
+            **supervisor_output,
+            "user_id": None if is_test_mode else 1,
+            "email_id": None
         })
 
         # 5️⃣ Memory update (ONLY after execution)
@@ -53,7 +58,8 @@ class MailGentPipeline:
                 "sender": email_input.get("sender"),
                 "action": "task_created",
                 "outcome": "completed",  # placeholder for now
-                "response_time_hours": None
+                "response_time_hours": None,
+                "user_id": None if is_test_mode else 1
             }
             self.memory.run(memory_event)
 
